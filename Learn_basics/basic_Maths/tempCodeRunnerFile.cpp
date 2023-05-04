@@ -1,0 +1,1 @@
+int min = a > b ? b : a;
