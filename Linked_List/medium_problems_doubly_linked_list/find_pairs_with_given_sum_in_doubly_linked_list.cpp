@@ -1,6 +1,5 @@
 #include <bits/stdc++.h>
 using namespace std;
-
 class Node
 {
 public:
@@ -27,43 +26,40 @@ public:
     }
 };
 
-Node *deleteAllOccurrences(Node *head, int k)
+#include <bits/stdc++.h>
+vector<pair<int, int>> findPairs(Node *head, int k)
 {
-    // Write your code here
+    // Write your code here.
+    vector<pair<int, int>> ans;
     if (!head)
     {
-        return head;
+        ans[0].first = 0;
+        ans[0].second = 0;
+        return ans;
     }
     if (!head->next)
     {
-        return head;
+        ans[0].first = 0;
+        ans[0].second = 0;
+        return ans;
     }
+    map<int, int> mpp;
     Node *temp = head;
     while (temp)
     {
-        if (temp->data == k)
+        int axios = temp->data;
+        if (mpp[k - axios] != 0)
         {
-            if (temp->prev && temp->next)
-            {
-                temp->prev->next = temp->next;
-                temp->next->prev = temp->prev;
-            }
-            else if (temp->prev)
-            {
-                temp->prev->next = NULL;
-            }
-            else
-            {
-                head = temp->next;
-            }
+            pair<int, int> tempo;
+            tempo.first = k - axios;
+            tempo.second = axios;
+            ans.push_back(tempo);
         }
+        mpp[axios]++;
         temp = temp->next;
     }
-    if (head->data == k)
-    {
-        return NULL;
-    }
-    return head;
+
+    return ans;
 }
 int main()
 {
