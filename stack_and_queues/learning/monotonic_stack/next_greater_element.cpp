@@ -5,30 +5,36 @@ class Solution
 public:
     vector<int> nextGreaterElement(vector<int> &nums1, vector<int> &nums2)
     {
-        vector<int> ans;
-        for (int i{0}; i < nums1.size(); i++)
+        stack<int> st;
+        unordered_map<int, int> nextGreater;
+
+        for (int i = nums2.size() - 1; i >= 0; i--)
         {
-            int k = nums1[i];
-            for (int j{0}; j < nums2.size(); j++)
+            while (!st.empty() && st.top() < nums2[i])
             {
-                if (k == nums2[j])
-                {
-                    int alpha = j;
-                    int greater = -1;
-                    while (alpha < nums2.size())
-                    {
-                        if (nums2[alpha] > nums2[j])
-                        {
-                            greater = (nums2[alpha]);
-                            break;
-                        }
-                        alpha++;
-                    }
-                    ans.push_back(greater);
-                }
+                st.pop();
             }
+
+            if (st.empty())
+            {
+                nextGreater[nums2[i]] = -1;
+            }
+            else
+            {
+                nextGreater[nums2[i]] = st.top();
+            }
+
+            st.push(nums2[i]);
         }
-        return ans;
+
+        vector<int> result;
+
+        for (int num : nums1)
+        {
+            result.push_back(nextGreater[num]);
+        }
+
+        return result;
     }
 };
 int main()
