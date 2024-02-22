@@ -1,63 +1,47 @@
 #include <bits/stdc++.h>
 using namespace std;
-class MedianFinder
+class Solution
 {
 public:
-    multiset<int> st;
-    MedianFinder()
-    {
-    }
+    // Function to insert heap.
+    priority_queue<int> small;
+    priority_queue<int, vector<int>, greater<int>> large;
 
-    void addNum(int num)
+    void insertHeap(int &x)
     {
-        st.insert(num);
-    }
-
-    double findMedian()
-    {
-        int n = st.size();
-        double ans = 0;
-        if (st.empty())
+        if (small.empty() || x < small.top())
         {
-            return ans;
-        }
-        int counter = 0;
-        auto it = st.begin();
-        if (n % 2 != 0)
-        {
-            while (it != st.end())
-            {
-                counter++;
-                if (counter == ((n / 2) + 1))
-                {
-                    ans = *it;
-                    break;
-                }
-                it++;
-            }
+            small.push(x);
         }
         else
         {
-            double t1 = 0;
-            double t2 = 0;
-            while (it != st.end())
-            {
-                counter++;
-                if (counter == (n / 2))
-                {
-                    t1 = *it;
-                }
-                if (counter == (n / 2) + 1)
-                {
-                    t2 = *it;
-                    break;
-                }
-
-                it++;
-            }
-            ans = (t1 + t2) / 2;
+            large.push(x);
         }
-        return ans;
+        if (abs((int)small.size() - (int)large.size()) > 1)
+        {
+            large.push(small.top());
+            small.pop();
+        }
+        else if (large.size() > small.size())
+        {
+            small.push(large.top());
+            large.pop();
+        }
+    }
+
+    // Function to balance heaps.
+    void balanceHeaps()
+    {
+    }
+
+    // Function to return Median.
+    double getMedian()
+    {
+        if (small.size() == large.size())
+        {
+            return (double)(small.top() + large.top()) / 2;
+        }
+        return small.top();
     }
 };
 
