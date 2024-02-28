@@ -1,46 +1,47 @@
 #include <bits/stdc++.h>
 using namespace std;
-int main()
+vector<int> spiralOrder(vector<vector<int>> &matrix)
 {
-    int n = 3;
-    int m = 3;
-    int k = 4;
-    vector<vector<int>> mat = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-    vector<int> ans;
-    int left = 0, right = m - 1;
-    int top = 0, bottom = n - 1;
-    while (top <= bottom && left <= right)
+    vector<int> ans = {};
+    int n = matrix.size();
+    int m = matrix[0].size();
+    int left = 0;
+    int right = m - 1;
+    int top = 0;
+    int bottom = n - 1;
+    while (left <= right && top <= bottom)
     {
         for (int i{left}; i <= right; i++)
         {
-            ans.push_back(mat[top][i]);
+            ans.push_back(matrix[top][i]);
         }
         top++;
-
         for (int i{top}; i <= bottom; i++)
         {
-            ans.push_back(mat[i][right]);
+            ans.push_back(matrix[i][right]);
         }
         right--;
-
-        if (top <= bottom)
+        if (bottom >= top)
         {
             for (int i{right}; i >= left; i--)
             {
-                ans.push_back(mat[bottom][i]);
+                ans.push_back(matrix[bottom][i]);
             }
             bottom--;
         }
-        if (left <= right)
+        if (right >= left)
         {
             for (int i{bottom}; i >= top; i--)
             {
-                ans.push_back(mat[i][left]);
+                ans.push_back(matrix[i][left]);
             }
             left++;
         }
     }
-    cout << ans[k - 1] << endl;
+    return ans;
+}
+int main()
+{
 
     return 0;
 }
