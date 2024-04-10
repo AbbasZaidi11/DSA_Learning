@@ -1,8 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 struct TreeNode{
-  struct * TreeNode left;
-  struct * TreeNode right;
+  TreeNode * left;
+  TreeNode * right;
   int data;
   TreeNode(int val){
     data=val;
