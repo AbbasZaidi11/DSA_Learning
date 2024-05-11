@@ -23,3 +23,28 @@
         return root;
 
     }
+// if the tree contains duplicate elements then :
+Node* builder(int in[], int pre[], int n, int preStart, int preEnd, int inStart, int inEnd) {
+    if (preStart > preEnd || inStart > inEnd) {
+        return NULL;
+    }
+    Node* root = new Node(pre[preStart]);
+    int inroot = -1; // Initialize to -1
+    for (int i = inStart; i <= inEnd; i++) {
+        if (in[i] == pre[preStart]) {
+            inroot = i;
+            in[i] = -1; // Once used, mark it as -1
+            break;
+        }
+    }
+    int leftside = inroot - inStart; // Calculate leftside correctly
+    root->left = builder(in, pre, n, preStart + 1, preStart + leftside, inStart, inroot - 1);
+    root->right = builder(in, pre, n, preStart + leftside + 1, preEnd, inroot + 1, inEnd);
+    return root;
+}
+    Node* buildTree(int in[],int pre[], int n)
+    {
+        // Code her
+        
+        return builder(in,pre,n,0,n-1,0,n-1);
+    }
