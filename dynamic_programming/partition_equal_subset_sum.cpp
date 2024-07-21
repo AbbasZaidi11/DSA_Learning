@@ -9,23 +9,6 @@ using namespace std;
 
 class Solution{
 public:
-    int recur(int first_sum,int total_sum,int n,int arr[],vector<vector<int>>&dp){
-        if(first_sum==total_sum){
-            return 1;
-        }
-        else if(n==0 || first_sum>total_sum){
-            return 0;
-        }
-        if(dp[n][total_sum]!=-1){
-            return dp[n][total_sum];
-        }
-        if(first_sum+arr[n-1]<=total_sum-arr[n-1]){
-            int taken=recur(first_sum+arr[n-1],total_sum-arr[n-1],n-1,arr,dp) || 
-                        recur(first_sum,total_sum,n-1,arr,dp);
-            return dp[n][total_sum]=taken;
-        }
-        return dp[n][total_sum]=recur(first_sum,total_sum,n-1,arr,dp);
-    }
     int equalPartition(int n, int arr[])
     {
         // code here
@@ -36,11 +19,29 @@ public:
         if(total_sum%2){
             return 0;
         }
-        int first_sum=0;
-        vector<vector<int>>dp(n+1,vector<int>(total_sum+1,-1));
-        return recur(first_sum,total_sum,n,arr,dp);
+        int first_sum=total_sum/2;
+        vector<vector<int>>dp(n+1,vector<int>(first_sum+1,0));
+        
+        for(int i{0};i<n+1;i++){
+            for(int j{0};j<first_sum+1;j++){
+                if(j==0){
+                    dp[i][j]=1;
+                }
+            }
+        }
+        for(int i{1};i<n+1;i++){
+            for(int j{1};j<first_sum+1;j++){
+                if(arr[i-1]<=j){
+                    dp[i][j]=dp[i-1][j-arr[i-1]] || dp[i-1][j];
+                }else{
+                    dp[i][j]=dp[i-1][j];
+                }
+            }
+        }
+        return dp[n][first_sum];
     }
 };
+
 
 //{ Driver Code Starts.
 
